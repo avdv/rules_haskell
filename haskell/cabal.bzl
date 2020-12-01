@@ -1267,12 +1267,7 @@ def _pin_packages(repository_ctx, resolved):
                 find_cmd = ["dir", "/s", "/b", root + "\\" + cabal_file]
             subdirs = [
                 paths.relativize(line.strip(), root)
-                for line in _execute_or_fail_loudly(repository_ctx, [
-                    "find",
-                    root,
-                    "-name",
-                    cabal_file,
-                ]).stdout.splitlines()
+                for line in _execute_or_fail_loudly(repository_ctx, find_cmd).stdout.splitlines()
                 if line.strip() != ""
             ]
             if len(subdirs) != 1:
