@@ -29,7 +29,15 @@ results_file = sys.argv[6]
 with io.open(global_pkg_db_dump, "r", encoding='utf8') as f:
     names = [line.split()[1] for line in f if line.startswith("name:")]
     f.seek(0)
-    ids = [line.split()[1] for line in f if line.startswith("id:")]
+    ids = []
+    line = f.readline()
+    while line:
+        if line.startswith("id:"):
+            entry = line.rstrip().split(maxsplit=1)
+
+            ids.append(entry[1] if len(entry) > 1 else f.readline().strip())
+
+        line = f.readline()
 
     # A few sanity checks.
     assert len(names) == len(ids)
